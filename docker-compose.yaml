@@ -1,0 +1,26 @@
+version: "3"
+services:
+  ipfs:
+    image: ipfs/go-ipfs:v0.9.1
+    ports:
+      - 5001:5001
+  postgres:
+    image: postgres:11
+    environment:
+      POSTGRES_USER: graph
+      POSTGRES_PASSWORD: letmein
+      POSTGRES_DB: graph-node
+  graph-node:
+    image: graphprotocol/graph-node
+    ports:
+      - 8000:8000
+      - 8020:8020
+      - 8030:8030
+      - 8040:8040
+    environment:
+      postgres_host: postgres
+      postgres_user: graph
+      postgres_pass: letmein
+      postgres_db: graph-node
+      ipfs: http://ipfs:5001
+      ethereum: mainnet:https://eth-mainnet.alchemyapi.io/v2/S7KzVzvkZHT0BIcTkUXtQgnGoiVqmycP
